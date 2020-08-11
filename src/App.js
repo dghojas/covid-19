@@ -1,17 +1,19 @@
 import React, { Fragment } from 'react';
 
-import './assets/css/styles.scss';
 import Header from './components/Common/Header';
-
 import CountryContextProvider from './contexts/CountryContext';
 import Footer from './components/Common/Footer';
 
+import './assets/css/styles.css';
+
 const App = () => (
-    <Fragment>
-        <Header />
-        <CountryContextProvider />
-        <Footer />
-    </Fragment>
+    <div className="app">
+        <Fragment>
+            <Header />
+            <CountryContextProvider />
+            <Footer />
+        </Fragment>
+    </div>
 );
 
 App.displayName = 'App';
