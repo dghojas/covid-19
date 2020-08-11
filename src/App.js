@@ -4,8 +4,6 @@ import Header from './components/Common/Header';
 import CountryContextProvider from './contexts/CountryContext';
 import Footer from './components/Common/Footer';
 
-import './assets/css/styles.css';
-
 const App = () => (
     <div className="app">
         <Fragment>
