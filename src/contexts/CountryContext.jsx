@@ -19,11 +19,13 @@ const CountryContextProvider = ({ children }) => {
             .catch(error => console.log(error));
     };
 
-    const getCountries = async () => {
+    const getCountries = () => {
         fetch(covidCountriesGet())
             .then(res => res.json())
             .then(data => {
-                const countries = data.map((country) => ({
+                console.log(data);
+                const countries = data.map((country, key) => ({
+                    id: key,
                     name: country.country,
                     value: country.countryInfo.iso2
                 }));
