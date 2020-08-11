@@ -44,8 +44,8 @@ const Countries = () => {
                 </Select>
             </FormControl>
 
-            <div>todayRecovered: {countryInfo.todayRecovered}</div>
-            <div>recovered: {countryInfo.recovered}</div>
+            <div>todayRecovered: {countryAll.todayRecovered}</div>
+            <div>recovered: {countryAll.recovered}</div>
         </Fragment>
     )
 };
