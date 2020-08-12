@@ -3,61 +3,66 @@ import React, { Fragment, useContext } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import Cases from '../Cases';
+import Recovered from '../Recovered';
 import Deaths from '../Deaths';
 
 import { CovidContext } from '../../contexts/CovidContext';
-// import { countryAll, countriesQuery } from './../../constants';
 
 const Countries = () => {
-    const { countriesAll, countries, getCountriesById } = useContext(CovidContext);
+    const { country, countryInfo, countries, onCountryChange } = useContext(
+        CovidContext
+    );
 
-    // const [country, setInputCountry] = useState("worldwide");
-    // const [countryInfo, setCountryInfo] = useState({});
+    const handleChange = (e) => {
+        const idCountry = e.target.value;
+        onCountryChange(idCountry);
+    };
 
-    // const onCountryChange = async (e) => {
-    //     const countryCode = e.target.value;
-    //     const url =
-    //         countryCode === "worldwide"
-    //             ? countryAll()
-    //             : countriesQuery(countryCode);
-    //     await fetch(url)
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             setInputCountry(countryCode);
-    //             setCountryInfo(data);
-    //         });
-    // };
+    console.log(countryInfo.country);
 
     return (
         <Fragment>
-            <FormControl>
-                <Select
-                    variant="outlined"
-                    value="worldwide"
-                    // onChange={onCountryChange}
-                    onChange={() => getCountriesById('CL')}
-                >
-                    <MenuItem key="0" value="worldwide">Worldwide</MenuItem>
-                    {
-                        countries.map((country, key) => (
-                            <MenuItem key={key} value={country.value}>{country.name}</MenuItem>
-                        ))
-                    }
-                </Select>
-
-                <div>TodayRecovered: {countriesAll.todayRecovered}</div>
-                <div>Recovered: {countriesAll.recovered}</div>
-
-                <div className="app__stats">
-
-                    <Deaths />
+            <div className="wrapper">
+                <div className="app__header">
+                    <h1>COVID-19: {countryInfo.country}</h1>
+                    <FormControl className="app__dropdown">
+                        <Select
+                            variant="outlined"
+                            value={country}
+                            onChange={handleChange}
+                        >
+                            <MenuItem key="0" value="worldwide">
+                                Worldwide
+                            </MenuItem>
+                            {countries.map((country, key) => (
+                                <MenuItem key={key} value={country.value}>
+                                    {country.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                 </div>
-            </FormControl>
+                <div className="app__stats">
+                    <Cases
+                        title="Cases"
+                        cases={countryInfo.todayCases}
+                        total={countryInfo.cases}
+                    />
+                    <Recovered
+                        title="Recovered"
+                        cases={countryInfo.todayRecovered}
+                        total={countryInfo.recovered}
+                    />
+                    <Deaths
+                        title="Deaths"
+                        cases={countryInfo.todayDeaths}
+                        total={countryInfo.deaths}
+                    />
+                </div>
+            </div>
         </Fragment>
     );
-
 };
-
 Countries.displayName = 'Countries';
-
 export default Countries;

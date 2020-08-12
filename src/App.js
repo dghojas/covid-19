@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+import './assets/css/styles.scss';
 import Header from './components/Common/Header';
 import CovidContextProvider from './contexts/CovidContext';
 import Countries from './components/Countries';

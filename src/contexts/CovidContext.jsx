@@ -4,48 +4,50 @@ import { countryAll, countriesGet, countriesQuery } from '../constants';
 export const CovidContext = createContext();
 
 const CovidContextProvider = ({ children }) => {
-    const [countriesAll, setCountriesAll] = useState({});
+    const [country, setInputCountry] = useState('worldwide');
+    const [countryInfo, setCountryInfo] = useState({});
     const [countries, setCountries] = useState([]);
-    // const [country, setInputCountry] = useState('worldwide');
 
     useEffect(() => getCountriesAll(), []);
-    useEffect(() => getCountries(), []);
-    // useEffect(() => getCountriesById(), []);
+    useEffect(() => getCountriesData(), []);
 
     const getCountriesAll = () => {
         fetch(countryAll())
-            .then((res) => res.json())
+            .then((response) => response.json())
             .then((data) => {
-                setCountriesAll(data);
-            })
-            .catch((error) => console.log(error));
+                setCountryInfo(data);
+            });
     };
 
-    const getCountries = () => {
+    const getCountriesData = () => {
         fetch(countriesGet())
-            .then((res) => res.json())
+            .then((response) => response.json())
             .then((data) => {
-                const paises = data.map((country, key) => ({
-                    id: key,
+                const countries = data.map((country) => ({
                     name: country.country,
                     value: country.countryInfo.iso2,
                 }));
-                setCountries(paises);
-            })
-            .catch((error) => console.log(error));
+                setCountries(countries);
+            });
     };
 
-    const getCountriesById = (q_countries) => {
-        console.log('Pais: ' + q_countries);
-        fetch(countriesQuery(q_countries))
+    const onCountryChange = async (q_countries) => {
+        const url =
+            q_countries === 'worldwide'
+                ? countryAll()
+                : countriesQuery(q_countries);
+        await fetch(url)
             .then((res) => res.json())
-            .then((data) => setCountries(data))
+            .then((data) => {
+                setInputCountry(q_countries);
+                setCountryInfo(data);
+            })
             .catch((error) => console.log(error));
     };
 
     return (
         <CovidContext.Provider
-            value={{ countriesAll, countries, getCountriesById }}
+            value={{ country, countryInfo, countries, onCountryChange }}
         >
             {children}
         </CovidContext.Provider>
