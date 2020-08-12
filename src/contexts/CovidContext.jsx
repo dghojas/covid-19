@@ -25,24 +25,22 @@ const CovidContextProvider = ({ children }) => {
         fetch(countriesGet())
             .then((res) => res.json())
             .then((data) => {
-                const countries = data.map((country, key) => ({
+                const paises = data.map((country, key) => ({
                     id: key,
                     name: country.country,
                     value: country.countryInfo.iso2,
                 }));
-                setCountries(countries);
+                setCountries(paises);
             })
             .catch((error) => console.log(error));
     };
 
     const getCountriesById = (q_countries) => {
         console.log('Pais: ' + q_countries);
-
-        q_countries &&
-            fetch(countriesQuery(q_countries))
-                .then((res) => res.json())
-                .then((data) => setCountries(data.countries))
-                .catch((error) => console.log(error));
+        fetch(countriesQuery(q_countries))
+            .then((res) => res.json())
+            .then((data) => setCountries(data))
+            .catch((error) => console.log(error));
     };
 
     return (
