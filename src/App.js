@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
 import Header from './components/Common/Header';
-import CountryContextProvider from './contexts/CountryContext';
+import CovidContextProvider from './contexts/CovidContext';
 import Countries from './components/Countries/Countries';
 import Footer from './components/Common/Footer';
 
@@ -9,9 +9,9 @@ const App = () => (
     <div className="app">
         <Fragment>
             <Header />
-            <CountryContextProvider>
+            <CovidContextProvider>
                 <Countries />
-            </CountryContextProvider>
+            </CovidContextProvider>
             <Footer />
         </Fragment>
     </div>

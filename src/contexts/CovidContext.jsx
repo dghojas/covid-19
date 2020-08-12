@@ -1,29 +1,28 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { covidAllGet, covidCountriesGet } from './../constants';
+import React, { createContext, useEffect, useState } from 'react';
+import { countryAll, countriesGet } from '../constants';
 
-export const CountryContext = createContext();
+export const CovidContext = createContext();
 
-const CountryContextProvider = ({ children }) => {
-    const [countryAll, setCountryAll] = useState({});
+const CovidContextProvider = ({ children }) => {
+    const [countriesAll, setCountriesAll] = useState({});
     const [countries, setCountries] = useState([]);
 
     useEffect(() => getCountriesAll(), []);
     useEffect(() => getCountries(), []);
 
     const getCountriesAll = () => {
-        fetch(covidAllGet())
+        fetch(countryAll())
             .then((res) => res.json())
             .then((data) => {
-                setCountryAll(data);
+                setCountriesAll(data);
             })
             .catch(error => console.log(error));
     };
 
     const getCountries = () => {
-        fetch(covidCountriesGet())
+        fetch(countriesGet())
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 const countries = data.map((country, key) => ({
                     id: key,
                     name: country.country,
@@ -33,11 +32,12 @@ const CountryContextProvider = ({ children }) => {
             })
             .catch(error => console.log(error));
     };
+
     return (
-        <CountryContext.Provider value={{ countryAll, countries }}>
+        <CovidContext.Provider value={{ countriesAll, countries }}>
             {children}
-        </CountryContext.Provider>
-    );
+        </CovidContext.Provider>
+    )
 };
 
-export default CountryContextProvider;
+export default CovidContextProvider;
